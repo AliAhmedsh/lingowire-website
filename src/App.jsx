@@ -346,6 +346,38 @@ function App() {
   const [isTutorSubmitting, setIsTutorSubmitting] = useState(false)
   const [waitlistSuccess, setWaitlistSuccess] = useState(false)
   const [tutorSuccess, setTutorSuccess] = useState(false)
+  
+  // Countdown timer state
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  })
+
+  useEffect(() => {
+    // Set launch date (e.g., 60 days from now)
+    const launchDate = new Date();
+    launchDate.setDate(launchDate.getDate() + 60);
+    
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = launchDate.getTime() - now;
+      
+      if (distance > 0) {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        });
+      } else {
+        clearInterval(timer);
+      }
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, [])
 
   const handleWaitlistSubmit = async (e) => {
     e.preventDefault()
@@ -624,7 +656,346 @@ function App() {
             <p style={styles.ctaText}>Be the first to try the app when it launches</p>
           </div>
           
-          <p style={styles.comingSoon}>Coming soon to the App Store and Google Play</p>
+          {/* Countdown Timer */}
+          <div style={{ marginTop: '3rem', marginBottom: '2rem' }}>
+            <p style={{ color: '#6b7280', fontSize: '1rem', marginBottom: '1rem', fontWeight: '500' }}>Launching in:</p>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '1.5rem',
+              flexWrap: 'wrap'
+            }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  fontSize: '2.5rem',
+                  fontWeight: 'bold',
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)'
+                }}>
+                  {timeLeft.days}
+                </div>
+                <p style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.5rem' }}>Days</p>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  fontSize: '2.5rem',
+                  fontWeight: 'bold',
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)'
+                }}>
+                  {timeLeft.hours}
+                </div>
+                <p style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.5rem' }}>Hours</p>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  fontSize: '2.5rem',
+                  fontWeight: 'bold',
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)'
+                }}>
+                  {timeLeft.minutes}
+                </div>
+                <p style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.5rem' }}>Minutes</p>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  color: 'white',
+                  fontSize: '2.5rem',
+                  fontWeight: 'bold',
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)'
+                }} className="animate-pulse-slow">
+                  {timeLeft.seconds}
+                </div>
+                <p style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '0.5rem' }}>Seconds</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* App Store Buttons */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '1rem',
+            flexWrap: 'wrap',
+            marginTop: '2rem'
+          }}>
+            <a 
+              href="#" 
+              style={{
+                display: 'inline-block',
+                backgroundColor: '#000',
+                color: 'white',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '0.5rem',
+                textDecoration: 'none',
+                transition: 'transform 0.3s, opacity 0.3s',
+                opacity: 0.7,
+                cursor: 'not-allowed',
+                minWidth: '150px'
+              }}
+              onClick={(e) => e.preventDefault()}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                  <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/>
+                </svg>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: '0.65rem', opacity: 0.9 }}>Coming soon on</div>
+                  <div style={{ fontSize: '1rem', fontWeight: '600', fontFamily: "'Space Grotesk', sans-serif" }}>App Store</div>
+                </div>
+              </div>
+            </a>
+            
+            <a 
+              href="#" 
+              style={{
+                display: 'inline-block',
+                backgroundColor: '#000',
+                color: 'white',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '0.5rem',
+                textDecoration: 'none',
+                transition: 'transform 0.3s, opacity 0.3s',
+                opacity: 0.7,
+                cursor: 'not-allowed',
+                minWidth: '150px'
+              }}
+              onClick={(e) => e.preventDefault()}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                  <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.5,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                </svg>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontSize: '0.65rem', opacity: 0.9 }}>Coming soon on</div>
+                  <div style={{ fontSize: '1rem', fontWeight: '600', fontFamily: "'Space Grotesk', sans-serif" }}>Google Play</div>
+                </div>
+              </div>
+            </a>
+          </div>
+          
+          <p style={{ ...styles.comingSoon, marginTop: '1rem' }}>Be the first to know when we launch!</p>
+        </div>
+      </section>
+
+      {/* Mobile App Preview Section */}
+      <section style={{ padding: '4rem 1rem', backgroundColor: 'white', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <h2 style={styles.sectionTitle}>Experience Lingowire Mobile</h2>
+          <p style={styles.sectionSubtitle}>Beautiful, intuitive design for seamless language learning</p>
+          
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '2rem',
+            marginTop: '3rem',
+            alignItems: 'center'
+          }}>
+            {/* Phone Mockup 1 */}
+            <div style={{ textAlign: 'center' }} className="animate-slide-up">
+              <div style={{
+                width: '250px',
+                height: '500px',
+                margin: '0 auto',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                borderRadius: '2rem',
+                padding: '0.5rem',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: 'white',
+                  borderRadius: '1.5rem',
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}>
+                  <img 
+                    src="https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=250&h=500&fit=crop"
+                    alt="App Screen 1"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    textAlign: 'center',
+                    color: 'white',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                  }}>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Chat & Learn</h3>
+                    <p style={{ fontSize: '0.9rem' }}>Real-time conversations</p>
+                  </div>
+                </div>
+              </div>
+              <h3 style={{ marginTop: '1rem', fontSize: '1.25rem', fontWeight: '600', color: '#1f2937', fontFamily: "'Space Grotesk', sans-serif" }}>Interactive Chats</h3>
+              <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>Practice with native speakers</p>
+            </div>
+            
+            {/* Phone Mockup 2 */}
+            <div style={{ textAlign: 'center', animationDelay: '0.2s' }} className="animate-slide-up">
+              <div style={{
+                width: '250px',
+                height: '500px',
+                margin: '0 auto',
+                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                borderRadius: '2rem',
+                padding: '0.5rem',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: 'white',
+                  borderRadius: '1.5rem',
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}>
+                  <img 
+                    src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=250&h=500&fit=crop"
+                    alt="App Screen 2"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    textAlign: 'center',
+                    color: 'white',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                  }}>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Track Progress</h3>
+                    <p style={{ fontSize: '0.9rem' }}>Monitor your growth</p>
+                  </div>
+                </div>
+              </div>
+              <h3 style={{ marginTop: '1rem', fontSize: '1.25rem', fontWeight: '600', color: '#1f2937', fontFamily: "'Space Grotesk', sans-serif" }}>Progress Tracking</h3>
+              <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>See your improvement daily</p>
+            </div>
+            
+            {/* Phone Mockup 3 */}
+            <div style={{ textAlign: 'center', animationDelay: '0.4s' }} className="animate-slide-up">
+              <div style={{
+                width: '250px',
+                height: '500px',
+                margin: '0 auto',
+                background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                borderRadius: '2rem',
+                padding: '0.5rem',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: 'white',
+                  borderRadius: '1.5rem',
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}>
+                  <img 
+                    src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=250&h=500&fit=crop"
+                    alt="App Screen 3"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    textAlign: 'center',
+                    color: 'white',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                  }}>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Learn Topics</h3>
+                    <p style={{ fontSize: '0.9rem' }}>Structured lessons</p>
+                  </div>
+                </div>
+              </div>
+              <h3 style={{ marginTop: '1rem', fontSize: '1.25rem', fontWeight: '600', color: '#1f2937', fontFamily: "'Space Grotesk', sans-serif" }}>Topic-Based Learning</h3>
+              <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>Master real-world scenarios</p>
+            </div>
+            
+            {/* Phone Mockup 4 */}
+            <div style={{ textAlign: 'center', animationDelay: '0.6s' }} className="animate-slide-up">
+              <div style={{
+                width: '250px',
+                height: '500px',
+                margin: '0 auto',
+                background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                borderRadius: '2rem',
+                padding: '0.5rem',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+                position: 'relative'
+              }}>
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: 'white',
+                  borderRadius: '1.5rem',
+                  overflow: 'hidden',
+                  position: 'relative'
+                }}>
+                  <img 
+                    src="https://images.unsplash.com/photo-1598128558393-70ff21433be0?w=250&h=500&fit=crop"
+                    alt="App Screen 4"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    textAlign: 'center',
+                    color: 'white',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                  }}>
+                    <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Community</h3>
+                    <p style={{ fontSize: '0.9rem' }}>Connect globally</p>
+                  </div>
+                </div>
+              </div>
+              <h3 style={{ marginTop: '1rem', fontSize: '1.25rem', fontWeight: '600', color: '#1f2937', fontFamily: "'Space Grotesk', sans-serif" }}>Global Community</h3>
+              <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>Learn from everyone</p>
+            </div>
+          </div>
         </div>
       </section>
 
